@@ -2,16 +2,24 @@
 
 import { createApi } from "unsplash-js";
 
-export const getWallpaper = async () => {
+export const getWallpaper = async ({
+  page = 1,
+  query,
+  count = 25,
+}: {
+  page?: number;
+  query?: string;
+  count?: number;
+}) => {
+  const unsplash = createApi({
+    accessKey: process.env.UNSPLASH_ACCESS_KEY!,
+  });
+
   try {
-    const unsplash = createApi({
-      accessKey: process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY!,
-    });
+    const result = await unsplash.photos.getRandom({ count });
 
-    const photo = unsplash.photos.getRandom({ count: 1 });
-
-    return (await photo).response;
+    return result.response;
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching photos:", error);
   }
 };

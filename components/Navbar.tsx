@@ -23,12 +23,6 @@ export function Navbar() {
             >
               Home
             </Link>
-            <Link
-              href="/about"
-              className="px-3 py-2 text-gray-700 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-400"
-            >
-              About
-            </Link>
           </div>
         </div>
       </div>
