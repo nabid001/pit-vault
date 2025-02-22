@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx";
-import { randomUUID } from "crypto";
 import { twMerge } from "tailwind-merge";
 import { createApi } from "unsplash-js";
 
@@ -21,6 +20,10 @@ export const handleDownload = async (image: any) => {
   }
 };
 
-export const uniqId = (id: string) => {
-  return `${id}+${randomUUID}`;
-};
+export function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}

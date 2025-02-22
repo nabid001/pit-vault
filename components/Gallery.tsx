@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 "use client";
 
 import Masonry from "react-masonry-css";
@@ -20,7 +19,7 @@ export function Gallery({ initialImages }: { initialImages: Basic[] }) {
       >
         {initialImages?.map((image) => (
           <div key={image.id} className="group relative mb-4">
-            <Link href={`/photos/${image.id}`} className="block">
+            <Link href={`photos/${image.id}`} className="block">
               <BlurImage
                 src={image.urls.regular}
                 alt={image.alt_description || "Unsplash Image"}

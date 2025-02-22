@@ -9,7 +9,7 @@ const Home = async () => {
 
   return (
     <main className="root-container">
-      <div className="mb-8 flex flex-col items-center">
+      <div className="mb-10 mt-16 flex flex-col items-center">
         <Suspense fallback="Loading...">
           <SearchBar />
         </Suspense>

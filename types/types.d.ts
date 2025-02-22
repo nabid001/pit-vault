@@ -112,3 +112,19 @@ export type {
   Wallpaper,
   GetWallpaperResponse,
 };
+
+import type {
+  Full as UnsplashPhotoFull,
+  Basic as UnsplashPhotoBasic,
+} from "unsplash-js/dist/methods/photos/types";
+import type { Basic as UnsplashUserBasic } from "unsplash-js/dist/methods/users/types";
+
+export type UnsplashPhoto = UnsplashPhotoFull;
+export type UnsplashPhotoBasicType = UnsplashPhotoBasic;
+export type UnsplashUser = UnsplashUserBasic;
+
+export interface UnsplashSearchResponse {
+  total: number;
+  total_pages: number;
+  results: UnsplashPhoto[];
+}

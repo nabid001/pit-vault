@@ -16,6 +16,11 @@ const eslintConfig = [
     "plugin:tailwindcss/recommended",
     "prettier"
   ),
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

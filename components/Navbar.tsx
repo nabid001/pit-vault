@@ -3,8 +3,8 @@ import { Camera } from "lucide-react";
 
 export function Navbar() {
   return (
-    <nav className="bg-white shadow dark:bg-gray-800">
-      <div className="container mx-auto px-6 py-4">
+    <header className="bg-white shadow dark:bg-gray-800 fixed inset-x-0 top-0 z-50">
+      <nav className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Camera className="size-6 text-gray-800 dark:text-white" />
@@ -25,7 +25,7 @@ export function Navbar() {
             </Link>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }
