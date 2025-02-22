@@ -2,11 +2,11 @@ export default function LoadingSkeleton() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header Skeleton */}
-      <div className="fixed left-0 right-0 top-16 z-40 flex h-16 items-center justify-between border-b bg-white px-4">
+      <div className="fixed inset-x-0 top-16 z-40 flex h-16 items-center justify-between border-b bg-white px-4">
         <div className="flex items-center gap-4">
-          <div className="h-10 w-10 animate-pulse rounded-full bg-gray-200" />
+          <div className="size-10 animate-pulse rounded-full bg-gray-200" />
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 animate-pulse rounded-full bg-gray-200" />
+            <div className="size-8 animate-pulse rounded-full bg-gray-200" />
             <div className="space-y-2">
               <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
               <div className="h-3 w-20 animate-pulse rounded bg-gray-200" />
@@ -14,9 +14,9 @@ export default function LoadingSkeleton() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <div className="h-9 w-9 animate-pulse rounded-full bg-gray-200" />
-          <div className="h-9 w-9 animate-pulse rounded-full bg-gray-200" />
-          <div className="h-9 w-24 animate-pulse rounded-full bg-gray-200" />
+          <div className="size-9 animate-pulse rounded-full bg-gray-200" />
+          <div className="size-9 animate-pulse rounded-full bg-gray-200" />
+          <div className="h-9 w-32 animate-pulse rounded-full bg-gray-200" />
         </div>
       </div>
 

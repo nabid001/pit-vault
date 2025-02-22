@@ -3,15 +3,15 @@ import { Camera } from "lucide-react";
 
 export function Navbar() {
   return (
-    <header className="bg-white shadow dark:bg-gray-800 fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-50 bg-white shadow dark:bg-gray-800">
       <nav className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Camera className="size-6 text-gray-800 dark:text-white" />
+          <div className="">
             <Link
               href="/"
-              className="ml-2 text-xl font-bold text-gray-800 dark:text-white"
+              className="ml-2 flex items-center gap-1 text-xl font-bold text-gray-800 dark:text-white"
             >
+              <Camera className="size-6 text-gray-800 dark:text-white" />
               Pic Vault
             </Link>
           </div>

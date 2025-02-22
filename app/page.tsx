@@ -4,8 +4,13 @@ import { getWallpaper } from "@/lib/fetch";
 import { Suspense } from "react";
 import { Basic } from "unsplash-js/dist/methods/photos/types";
 
-const Home = async () => {
-  const data: Basic[] = await getWallpaper({});
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string | undefined }>;
+}) => {
+  const search = (await searchParams).search;
+  const data: Basic[] = (await getWallpaper({ query: search })) || [];
 
   return (
     <main className="root-container">

@@ -2,75 +2,52 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { formatDate, handleDownload } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 interface WallpaperDetailsProps {
   photo: any;
 }
 
 const WallpaperDetail = ({ photo }: WallpaperDetailsProps) => {
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [currentImageSrc, setCurrentImageSrc] = useState(photo.urls.small);
+  const [imageQuality, setImageQuality] = useState<
+    "small" | "regular" | "full"
+  >("small");
+  const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const regularImage = document.createElement("img");
+    regularImage.src = photo.urls.regular;
+    regularImage.onload = () => {
+      setCurrentImageSrc(photo.urls.regular);
+      setImageQuality("regular");
+
+      // Load full quality after regular is loaded
+      const fullImage = document.createElement("img");
+      fullImage.src = photo.urls.full;
+      fullImage.onload = () => {
+        setCurrentImageSrc(photo.urls.full);
+        setImageQuality("full");
+      };
+    };
+  }, [photo.urls.regular, photo.urls.full]);
   return (
-    <div className="min-h-screen bg-white">
-      <header className="fixed inset-x-0 top-16 z-40 flex h-14 items-center justify-between border-b bg-white px-4">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/"
-            className="flex size-10 items-center justify-center rounded-full hover:bg-gray-100"
-          >
-            <ArrowLeft className="size-5" />
-          </Link>
-          <div className="flex items-center gap-3">
-            <Image
-              src={photo.user.profile_image.medium || "/placeholder.svg"}
-              alt={photo.user.name}
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">{photo.user.name}</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="rounded-full" asChild>
-            <a
-              href={photo?.links?.download + "&force=true"}
-              download={`${photo.id}.jpg`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={async (e) => {
-                e.preventDefault();
-                await handleDownload(photo);
-              }}
-            >
-              Download
-            </a>
-          </Button>
-        </div>
-      </header>
-
+    <>
       {/* Main Content */}
       <main className="mx-auto max-w-screen-2xl px-4 pt-36">
         {/* Image */}
         <div className="relative flex justify-center">
-          <div
-            className={`relative transition-opacity duration-300 ${
-              isImageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          >
+          <div className={`relative transition-opacity duration-300 `}>
             <Image
-              src={photo.urls.full || "/placeholder.svg"}
-              alt={photo.alt_description || "Unsplash Photo"}
+              src={currentImageSrc}
+              alt={photo.alt_description}
               width={photo.width}
               height={photo.height}
-              className="max-h-[80vh] rounded-lg object-contain"
-              onLoadingComplete={() => setIsImageLoaded(true)}
+              className="max-h-[80vh] rounded-lg object-contain transition-all duration-1000"
+              onLoadingComplete={() => setIsLoading(false)}
+              onLoadStart={() => setIsLoading(true)}
               priority
             />
           </div>
@@ -163,7 +140,7 @@ const WallpaperDetail = ({ photo }: WallpaperDetailsProps) => {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 };
 

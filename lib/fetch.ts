@@ -1,7 +1,7 @@
 "use server";
 
 import { createApi } from "unsplash-js";
-import { Full } from "unsplash-js/dist/methods/photos/types";
+import { randomTitle } from "./utils";
 const unsplash = createApi({
   accessKey: process.env.UNSPLASH_ACCESS_KEY!,
 });
@@ -16,9 +16,41 @@ export const getWallpaper = async ({
   count?: number;
 }) => {
   try {
-    const result = await unsplash.photos.getRandom({ count });
+    if (query) {
+      const result = await unsplash.search.getPhotos(
+        {
+          query,
+          page,
+          perPage: count,
+          orientation: "landscape",
+          orderBy: "relevant",
+        },
+        { cache: "reload" }
+      );
 
-    return result.response;
+      if (result.type === "success") {
+        return result.response.results;
+      } else {
+        throw new Error("Failed to search for photos");
+      }
+    } else {
+      const result = await unsplash.search.getPhotos(
+        {
+          query: randomTitle(),
+          page,
+          perPage: count,
+          orderBy: "relevant",
+          orientation: "landscape",
+        },
+        { cache: "reload" }
+      );
+
+      if (result.type === "success") {
+        return result.response.results;
+      } else {
+        throw new Error("Failed to fetch all photos");
+      }
+    }
   } catch (error) {
     console.error("Error fetching photos:", error);
   }
