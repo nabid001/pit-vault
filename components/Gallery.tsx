@@ -4,12 +4,39 @@ import Masonry from "react-masonry-css";
 import Link from "next/link";
 import { BlurImage } from "@/components/blur-image";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
 import { breakpointColumnsObj } from "@/constant";
 import { Basic } from "unsplash-js/dist/methods/photos/types";
 import { DownloadButton } from "./DownloadButton";
+import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
+import { getWallpaper } from "@/lib/fetch";
 
-export function Gallery({ initialImages }: { initialImages: Basic[] }) {
+let page = 2;
+
+export function Gallery({
+  initialImages,
+  searchQuery,
+}: {
+  initialImages: Basic[];
+  searchQuery: string;
+}) {
+  const { ref, inView } = useInView();
+  const [images, setImages] = useState<Basic[]>(initialImages || []);
+
+  const fetchMoreWallpaper = async () => {
+    const result = await getWallpaper({ page, query: searchQuery });
+    if (result) {
+      page++;
+      setImages((prev) => [...prev, ...result]);
+    }
+  };
+
+  useEffect(() => {
+    if (inView) {
+      fetchMoreWallpaper();
+    }
+  }, [inView]);
   return (
     <>
       <Masonry
@@ -17,7 +44,7 @@ export function Gallery({ initialImages }: { initialImages: Basic[] }) {
         className="-ml-4 flex w-auto"
         columnClassName="pl-4 mb-10"
       >
-        {initialImages?.map((image) => (
+        {images?.map((image) => (
           <div key={image.id} className="group relative mb-4">
             <Link href={`/photos/${image.id}`} className="block">
               <BlurImage
@@ -50,10 +77,17 @@ export function Gallery({ initialImages }: { initialImages: Basic[] }) {
                 </div>
               </div>
             </Link>
-            <DownloadButton image={image} />
+            <DownloadButton
+              imageId={image.id}
+              downloadLink={image?.links?.download}
+              downloadLocation={image?.links?.download_location}
+            />
           </div>
         ))}
       </Masonry>
+      <div ref={ref} className="my-3 flex items-center justify-center">
+        <Loader2 className="size-6 animate-spin" />
+      </div>
     </>
   );
 }

@@ -45,6 +45,12 @@ export const randomTitle = () => {
     "Carton Wallpaper",
     "Anime wallpapers",
     "Beautiful anime wallpapers",
+    "blue czechia lysá",
+    "hora krásná mountain",
+    "nature landscape sky",
+    "background image",
+    "minimal background alps",
+    "minimalistic desktop template",
   ];
 
   return titles[Math.floor(Math.random() * titles.length)];

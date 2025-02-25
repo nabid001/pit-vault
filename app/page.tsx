@@ -19,7 +19,7 @@ const Home = async ({
           <SearchBar />
         </Suspense>
       </div>
-      <Gallery initialImages={data} />
+      <Gallery initialImages={data} searchQuery={search || ""} />
     </main>
   );
 };
