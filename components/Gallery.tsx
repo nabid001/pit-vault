@@ -12,8 +12,6 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import { getWallpaper } from "@/lib/fetch";
 
-let page = 2;
-
 export function Gallery({
   initialImages,
   searchQuery,
@@ -23,12 +21,29 @@ export function Gallery({
 }) {
   const { ref, inView } = useInView();
   const [images, setImages] = useState<Basic[]>(initialImages || []);
+  const [page, setPage] = useState(2);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Reset state when search query changes
+  useEffect(() => {
+    setImages(initialImages || []);
+    setPage(2);
+  }, [searchQuery, initialImages]);
 
   const fetchMoreWallpaper = async () => {
-    const result = await getWallpaper({ page, query: searchQuery });
-    if (result) {
-      page++;
-      setImages((prev) => [...prev, ...result]);
+    if (isLoading) return;
+
+    setIsLoading(true);
+    try {
+      const result = await getWallpaper({ page, query: searchQuery });
+      if (result && result.length > 0) {
+        setImages((prev) => [...prev, ...result]);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      console.error("Error fetching more wallpapers:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,7 +51,8 @@ export function Gallery({
     if (inView) {
       fetchMoreWallpaper();
     }
-  }, [inView]);
+  }, [inView, searchQuery]); // Add searchQuery as dependency
+
   return (
     <>
       <Masonry
@@ -72,7 +88,6 @@ export function Gallery({
                 </div>
                 <div className="flex items-center gap-1 text-white">
                   <Heart className="size-4" />
-
                   {image.likes}
                 </div>
               </div>
@@ -85,9 +100,13 @@ export function Gallery({
           </div>
         ))}
       </Masonry>
-      <div ref={ref} className="my-3 flex items-center justify-center">
-        <Loader2 className="size-6 animate-spin" />
-      </div>
+      {images.length > 0 && (
+        <div ref={ref} className="my-3 flex items-center justify-center">
+          <Loader2
+            className={`size-6 ${isLoading ? "animate-spin" : "opacity-0"}`}
+          />
+        </div>
+      )}
     </>
   );
 }

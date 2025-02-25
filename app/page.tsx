@@ -7,9 +7,10 @@ import { Basic } from "unsplash-js/dist/methods/photos/types";
 const Home = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string | undefined }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const search = (await searchParams).search;
+  const search =
+    typeof searchParams.search === "string" ? searchParams.search : "";
   const data: Basic[] = (await getWallpaper({ query: search })) || [];
 
   return (
@@ -19,7 +20,7 @@ const Home = async ({
           <SearchBar />
         </Suspense>
       </div>
-      <Gallery initialImages={data} searchQuery={search || ""} />
+      <Gallery initialImages={data} searchQuery={search} />
     </main>
   );
 };
