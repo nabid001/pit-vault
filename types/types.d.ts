@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type Nullable<T> = T | null;
 
 interface AlternativeSlugs {
@@ -127,4 +126,10 @@ export interface UnsplashSearchResponse {
   total: number;
   total_pages: number;
   results: UnsplashPhoto[];
+}
+
+export interface CategoriesProps {
+  id: number;
+  name: string;
+  value: string;
 }

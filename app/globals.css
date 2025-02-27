@@ -7,6 +7,24 @@
     @apply container mx-auto px-4 py-8;
   }
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@media (max-width: 640px) {
+  .root-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 .loader div {
   box-sizing: border-box;
   display: block;
@@ -19,5 +37,23 @@
   animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #3b82f6 transparent transparent transparent;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+
 
 @layer base {}

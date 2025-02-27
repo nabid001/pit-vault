@@ -4,12 +4,56 @@ import Masonry from "react-masonry-css";
 import Link from "next/link";
 import { BlurImage } from "@/components/blur-image";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
 import { breakpointColumnsObj } from "@/constant";
 import { Basic } from "unsplash-js/dist/methods/photos/types";
 import { DownloadButton } from "./DownloadButton";
+import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
+import { getWallpaper } from "@/lib/fetch";
+import { formatAndDivideNumber } from "@/lib/utils";
 
-export function Gallery({ initialImages }: { initialImages: Basic[] }) {
+export function Gallery({
+  initialImages,
+  searchQuery,
+}: {
+  initialImages: Basic[];
+  searchQuery: string;
+}) {
+  const { ref, inView } = useInView();
+  const [images, setImages] = useState<Basic[]>(initialImages || []);
+  const [page, setPage] = useState(2);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Reset state when search query changes
+  useEffect(() => {
+    setImages(initialImages || []);
+    setPage(2);
+  }, [searchQuery, initialImages]);
+
+  const fetchMoreWallpaper = async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+    try {
+      const result = await getWallpaper({ page, query: searchQuery });
+      if (result && result.length > 0) {
+        setImages((prev) => [...prev, ...result]);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      console.error("Error fetching more wallpapers:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (inView) {
+      fetchMoreWallpaper();
+    }
+  }, [inView, searchQuery]); // Add searchQuery as dependency
+
   return (
     <>
       <Masonry
@@ -17,7 +61,7 @@ export function Gallery({ initialImages }: { initialImages: Basic[] }) {
         className="-ml-4 flex w-auto"
         columnClassName="pl-4 mb-10"
       >
-        {initialImages?.map((image) => (
+        {images?.map((image) => (
           <div key={image.id} className="group relative mb-4">
             <Link href={`/photos/${image.id}`} className="block">
               <BlurImage
@@ -45,15 +89,25 @@ export function Gallery({ initialImages }: { initialImages: Basic[] }) {
                 </div>
                 <div className="flex items-center gap-1 text-white">
                   <Heart className="size-4" />
-
-                  {image.likes}
+                  {formatAndDivideNumber(image.likes)}
                 </div>
               </div>
             </Link>
-            <DownloadButton image={image} />
+            <DownloadButton
+              imageId={image.id}
+              downloadLink={image?.links?.download}
+              downloadLocation={image?.links?.download_location}
+            />
           </div>
         ))}
       </Masonry>
+      {images.length > 0 && (
+        <div ref={ref} className="my-3 flex items-center justify-center">
+          <Loader2
+            className={`size-6 ${isLoading ? "animate-spin" : "opacity-0"}`}
+          />
+        </div>
+      )}
     </>
   );
 }

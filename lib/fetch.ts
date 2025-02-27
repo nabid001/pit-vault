@@ -17,16 +17,13 @@ export const getWallpaper = async ({
 }) => {
   try {
     if (query) {
-      const result = await unsplash.search.getPhotos(
-        {
-          query,
-          page,
-          perPage: count,
-          orientation: "landscape",
-          orderBy: "relevant",
-        },
-        { cache: "reload" }
-      );
+      const result = await unsplash.search.getPhotos({
+        query,
+        page,
+        perPage: count,
+        orientation: "landscape",
+        orderBy: "relevant",
+      });
 
       if (result.type === "success") {
         return result.response.results;
@@ -34,16 +31,13 @@ export const getWallpaper = async ({
         throw new Error("Failed to search for photos");
       }
     } else {
-      const result = await unsplash.search.getPhotos(
-        {
-          query: randomTitle(),
-          page,
-          perPage: count,
-          orderBy: "relevant",
-          orientation: "landscape",
-        },
-        { cache: "reload" }
-      );
+      const result = await unsplash.search.getPhotos({
+        query: randomTitle(),
+        page,
+        perPage: count,
+        orderBy: "relevant",
+        orientation: "landscape",
+      });
 
       if (result.type === "success") {
         return result.response.results;

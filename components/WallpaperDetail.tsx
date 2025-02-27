@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
+import { formatAndDivideNumber, formatDate } from "@/lib/utils";
 
 interface WallpaperDetailsProps {
   photo: any;
@@ -61,24 +61,24 @@ const WallpaperDetail = ({ photo }: WallpaperDetailsProps) => {
               <div>
                 <div className="text-sm text-gray-500">Views</div>
                 <div className="text-lg font-medium">
-                  {photo.views?.toLocaleString()}
+                  {formatAndDivideNumber(photo.views)}
                 </div>
               </div>
               <div>
                 <div className="text-sm text-gray-500">Downloads</div>
                 <div className="text-lg font-medium">
-                  {photo.downloads?.toLocaleString()}
+                  {formatAndDivideNumber(photo.downloads)}
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" className="text-gray-500">
                 Share
               </Button>
               <Button variant="ghost" size="sm" className="text-gray-500">
                 Info
               </Button>
-            </div>
+            </div> */}
           </div>
 
           {/* Details */}
@@ -126,13 +126,12 @@ const WallpaperDetail = ({ photo }: WallpaperDetailsProps) => {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {photo.tags.map((tag: any) => (
-                      <Link
+                      <p
                         key={tag.title}
-                        href={`/?query=${encodeURIComponent(tag.title)}`}
-                        className="rounded-md bg-gray-100 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200"
+                        className="cursor-pointer rounded-md bg-gray-100 px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-200"
                       >
                         {tag.title}
-                      </Link>
+                      </p>
                     ))}
                   </div>
                 </div>
