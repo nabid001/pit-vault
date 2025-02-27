@@ -1,10 +1,9 @@
 export const categories = [
-  { id: 1, name: "Nature", value: "nature" },
-  { id: 2, name: "Travel", value: "travel" },
-  { id: 3, name: "Architecture", value: "architecture" },
-  { id: 4, name: "Food", value: "food" },
-  { id: 5, name: "Animal", value: "animal" },
-  { id: 6, name: "People", value: "people" },
+  { id: 1, name: "Wallpaper", value: "Stunning Wallpapers" },
+  { id: 2, name: "Mountain", value: "Beautiful mountain wallpapers" },
+  { id: 3, name: "Anime", value: "Anime wallpapers" },
+  { id: 4, name: "Landscape", value: "nature landscape sky" },
+  { id: 5, name: "Sky", value: "blue czechia lysá" },
 ];
 
 export const breakpointColumnsObj = {

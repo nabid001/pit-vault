@@ -81,7 +81,7 @@ export function OptimizedImage({
           alt={alt}
           width={width}
           height={height}
-          onLoadingComplete={() => setIsLoaded(true)}
+          onLoad={() => setIsLoaded(true)}
           className={`transition-opacity duration-500 ${
             isLoaded ? "opacity-100" : "opacity-0"
           }`}

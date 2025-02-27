@@ -11,6 +11,7 @@ import { DownloadButton } from "./DownloadButton";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import { getWallpaper } from "@/lib/fetch";
+import { formatAndDivideNumber } from "@/lib/utils";
 
 export function Gallery({
   initialImages,
@@ -88,7 +89,7 @@ export function Gallery({
                 </div>
                 <div className="flex items-center gap-1 text-white">
                   <Heart className="size-4" />
-                  {image.likes}
+                  {formatAndDivideNumber(image.likes)}
                 </div>
               </div>
             </Link>

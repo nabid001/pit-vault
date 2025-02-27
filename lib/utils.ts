@@ -48,10 +48,19 @@ export const randomTitle = () => {
     "blue czechia lysá",
     "hora krásná mountain",
     "nature landscape sky",
-    "background image",
-    "minimal background alps",
-    "minimalistic desktop template",
   ];
 
   return titles[Math.floor(Math.random() * titles.length)];
+};
+
+export const formatAndDivideNumber = (number: number): string => {
+  if (number >= 1e9) {
+    return (number / 1e9).toFixed(2) + "B";
+  } else if (number >= 1e6) {
+    return (number / 1e6).toFixed() + "M";
+  } else if (number >= 1e3) {
+    return (number / 1e3).toFixed(2) + "K";
+  } else {
+    return number.toString();
+  }
 };

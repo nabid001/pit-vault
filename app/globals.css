@@ -7,6 +7,24 @@
     @apply container mx-auto px-4 py-8;
   }
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@media (max-width: 640px) {
+  .root-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 .loader div {
   box-sizing: border-box;
   display: block;
@@ -35,3 +53,7 @@
   animation: fadeIn 0.5s ease-out forwards;
   opacity: 0;
 }
+
+
+
+@layer base {}
