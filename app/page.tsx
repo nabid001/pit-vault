@@ -11,10 +11,10 @@ const Home = async ({
 }: {
   searchParams: { [key: string]: string | string | undefined };
 }) => {
-  const search = await searchParams.search;
+  const search = (await searchParams).search;
 
   const data: Basic[] = (await getWallpaper({ query: search })) || [];
-  console.log(data);
+  // console.log(data);
 
   return (
     <main className="root-container pb-5">
