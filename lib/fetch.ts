@@ -26,7 +26,7 @@ export const getWallpaper = async ({
       });
 
       if (result.type === "success") {
-        return result.response.results;
+        return JSON.parse(JSON.stringify(result.response.results));
       } else {
         throw new Error("Failed to search for photos");
       }
@@ -40,7 +40,7 @@ export const getWallpaper = async ({
       });
 
       if (result.type === "success") {
-        return result.response.results;
+        return JSON.parse(JSON.stringify(result.response.results));
       } else {
         throw new Error("Failed to fetch all photos");
       }
